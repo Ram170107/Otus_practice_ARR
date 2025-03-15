@@ -1,0 +1,25 @@
+PC_B> show ip
+
+NAME        : PC_B[1]
+IP/MASK     : 192.168.4.3/24
+GATEWAY     : 192.168.4.1
+DNS         : 
+MAC         : 00:50:79:66:68:05
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+
+PC_B> trace 192.168.3.3
+trace to 192.168.3.3, 8 hops max, press Ctrl+C to stop
+ 1   192.168.4.1   0.726 ms  0.435 ms  0.409 ms
+ 2   *192.168.3.3   0.632 ms (ICMP type:3, code:3, Destination port unreachable)
+
+PC_B> ping 192.168.3.3
+
+84 bytes from 192.168.3.3 icmp_seq=1 ttl=63 time=0.785 ms
+84 bytes from 192.168.3.3 icmp_seq=2 ttl=63 time=0.846 ms
+84 bytes from 192.168.3.3 icmp_seq=3 ttl=63 time=0.834 ms
+84 bytes from 192.168.3.3 icmp_seq=4 ttl=63 time=0.878 ms
+84 bytes from 192.168.3.3 icmp_seq=5 ttl=63 time=0.757 ms
+
+

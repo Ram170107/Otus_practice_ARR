@@ -1,0 +1,38 @@
+PC_A> show ip     
+
+NAME        : PC_A[1]
+IP/MASK     : 192.168.3.3/24
+GATEWAY     : 192.168.3.1
+DNS         : 
+MAC         : 00:50:79:66:68:04
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+
+PC_A> ping 192.168.3.1
+
+84 bytes from 192.168.3.1 icmp_seq=1 ttl=255 time=0.313 ms
+84 bytes from 192.168.3.1 icmp_seq=2 ttl=255 time=0.532 ms
+84 bytes from 192.168.3.1 icmp_seq=3 ttl=255 time=0.536 ms
+84 bytes from 192.168.3.1 icmp_seq=4 ttl=255 time=0.512 ms
+84 bytes from 192.168.3.1 icmp_seq=5 ttl=255 time=0.512 ms
+
+
+PC_A> ping 192.168.4.3
+
+84 bytes from 192.168.4.3 icmp_seq=1 ttl=63 time=1.801 ms
+84 bytes from 192.168.4.3 icmp_seq=2 ttl=63 time=0.820 ms
+84 bytes from 192.168.4.3 icmp_seq=3 ttl=63 time=0.827 ms
+84 bytes from 192.168.4.3 icmp_seq=4 ttl=63 time=0.859 ms
+84 bytes from 192.168.4.3 icmp_seq=5 ttl=63 time=0.819 ms
+
+
+PC_A> ping 192.168.3.12
+
+84 bytes from 192.168.3.12 icmp_seq=1 ttl=255 time=0.308 ms
+84 bytes from 192.168.3.12 icmp_seq=2 ttl=255 time=0.582 ms
+84 bytes from 192.168.3.12 icmp_seq=3 ttl=255 time=0.581 ms
+84 bytes from 192.168.3.12 icmp_seq=4 ttl=255 time=0.518 ms
+84 bytes from 192.168.3.12 icmp_seq=5 ttl=255 time=0.542 ms
+
+
