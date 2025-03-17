@@ -58,9 +58,10 @@ S2#
 
 ![](https://github.com/Ram170107/Otus_practice_ARR/blob/2c454f246aa113e251d01f496de6893e5a168d2f/labs/lab_2/Step_4_%D0%A1%D1%85%D0%B5%D0%BC%D0%B0.png)
 
+#### Данные протокола spanning tree с комутаторов S1, S2, S3:
 
 ```
-#### Данные протокола spanning tree с комутаторов S1, S2, S3:
+
 
 S1#sh spanning-tree 
 
