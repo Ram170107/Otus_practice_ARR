@@ -143,4 +143,28 @@ Et0/3               Root FWD 100       128.4    Shr
 
 
 ## Часть 3: Наблюдение за процессом выбора протоколом STP порта, исходя из стоимости портов.
+### Часть 1. Определите коммутатор с заблокированным портом.
+> _В моём случае это - S3_
 
+```
+S3#show spanning-tree 
+
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     aabb.cc00.1000
+             Cost        100
+             Port        4 (Ethernet0/3)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     aabb.cc00.3000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+### Et0/1               Altn BLK 100       128.2    Shr 
+Et0/3               Root FWD 100       128.4    Shr
+
+```
