@@ -27,3 +27,14 @@ ______
 Мною была выбрана подсеть 192.168.1.96 255.255.255.240 (/28) что в себя включает
  14 ip адресов, что подходить под требование 12 хостов
 ```
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/5da15b062c3d270ee7368ef24f9959257e4ee4b5/labs/lab_3/Addres%20table.png)
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/5da15b062c3d270ee7368ef24f9959257e4ee4b5/labs/lab_3/VLAN%20table.png)
+
+#### Шаг 3. Настройте основные параметры каждого маршрутизатора
+
+- Параметры настройены. Смотреть файл: https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R1_conf
+- https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R2_conf
+- 
+#### Шаг 4. Настройте маршрутизацию между VLAN на R1
+- Параметры настройены. Смотреть файл: https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R1_conf
+- https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R2_conf
