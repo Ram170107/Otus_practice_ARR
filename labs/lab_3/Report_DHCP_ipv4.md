@@ -32,7 +32,7 @@ ______
 
 #### Шаг 3. Настройте основные параметры каждого маршрутизатора
 
-- Параметры настройены. Смотреть файл конфига маршрутизаторов:
+- Параметры настройены. Смотреть файлы конфига маршрутизаторов:
   https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R1_conf
   https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R2_conf
   
@@ -134,3 +134,101 @@ R1#
 
 
 ```
+
+#### Шаг 6. Настройте основные параметры для каждого коммутатора
+- Параметры настройены. Смотреть файлы конфига коммутаторов:
+  https://github.com/Ram170107/Otus_practice_ARR/blob/203a68e4e0e2c9d15b7274b66d5d51681ed4a753/labs/lab_3/S1_conf
+  https://github.com/Ram170107/Otus_practice_ARR/blob/203a68e4e0e2c9d15b7274b66d5d51681ed4a753/labs/lab_3/S2_conf
+  
+#### Шаг 7. Создайте VLAN на S1
+```
+S1#show vlan brief 
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+100  Clients                          active    Et0/1
+200  Management                       active    
+999  Parking_Lot                      active    Et0/2, Et0/3
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+S1#
+
+______________________________________________________________________________________
+
+S1#show interfaces trunk 
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/0       on               802.1q         trunking      1000
+
+Port        Vlans allowed on trunk
+Et0/0       100,200
+
+Port        Vlans allowed and active in management domain
+Et0/0       100,200
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/0       100,200
+S1#
+
+```
+#### Шаг 8. Назначьте VLAN правильным интерфейсам коммутатора
+```
+
+S1#show vlan brief 
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+100  Clients                          active    Et0/1
+200  Management                       active    
+999  Parking_Lot                      active    Et0/2, Et0/3
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+S1#
+
+______________________________________________________________________________________
+
+S1#show interfaces trunk 
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/0       on               802.1q         trunking      1000
+
+Port        Vlans allowed on trunk
+Et0/0       100,200
+
+Port        Vlans allowed and active in management domain
+Et0/0       100,200
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/0       100,200
+S1#
+
+```
+
+```
+S2#show vlan brief 
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Et0/0, Et0/1, Et0/2, Et0/3
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+S2#
+__________________________________________________________________________________
+
+```
+- Почему интерфейс Eth0/0 указан в разделе VLAN 1?
+- 
+```
+Все порты по умолчанию находятся в нативном 1 VLAN
+
+```
+
+#### Шаг 9. 
