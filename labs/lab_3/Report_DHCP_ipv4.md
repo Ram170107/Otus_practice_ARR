@@ -37,8 +37,10 @@ ______
   https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R2_conf
   
 #### Шаг 4. Настройте маршрутизацию между VLAN на R1
-- Параметры настройены.
-
+- Параметры настройены:
+  
+```
+  
   R1#
 interface Ethernet0/1.100
  description Clients
@@ -49,6 +51,7 @@ interface Ethernet0/1.200
  description Management
  encapsulation dot1Q 200
  ip address 192.168.1.65 255.255.255.224
+```
 
 
  Смотреть файлы конфига маршрутизаторов:
@@ -56,6 +59,7 @@ interface Ethernet0/1.200
   https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R2_conf
   
 #### Шаг 5.  Настройте Eth0/0 на R2, затем Eth0/1 и статическую маршрутизацию для обоих маршрутизаторов:
+```
 
 R1#
 interface Ethernet0/0
@@ -63,7 +67,9 @@ interface Ethernet0/0
 !         
 interface Ethernet0/1
  no ip address
+```
 
+```
 
 R2#
 interface Ethernet0/0
@@ -93,4 +99,5 @@ L        10.0.0.2/32 is directly connected, Ethernet0/0
 C        192.168.1.96/28 is directly connected, Ethernet0/1
 L        192.168.1.97/32 is directly connected, Ethernet0/1
 
+```
 
