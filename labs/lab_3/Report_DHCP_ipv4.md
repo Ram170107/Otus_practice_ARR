@@ -125,11 +125,12 @@ L        192.168.1.97/32 is directly connected, Ethernet0/1
 ```
 ##### Убедитесь что статическая маршрутизация работает, отправиви запрос на адрес R2 Eth0/0
 ```
-R1#ping 10.0.0.1
+R1#ping 10.0.0.2
 Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 10.0.0.1, timeout is 2 seconds:
+Sending 5, 100-byte ICMP Echos to 10.0.0.2, timeout is 2 seconds:
 !!!!!
-Success rate is 100 percent (5/5), round-trip min/avg/max = 4/4/5 ms
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
 R1#
+
 
 ```
