@@ -227,4 +227,26 @@ S2#
 
 ```
 
-#### Шаг 9. 
+#### Шаг 9. Вручную настройте интерфейс S1 Eth0/0 в качестве trunk 802.1Q
+
+- Настроено:
+```
+
+S1#show interfaces trunk 
+
+Port        Mode             Encapsulation  Status        Native vlan
+Et0/0       on               802.1q         trunking      1000
+
+Port        Vlans allowed on trunk
+Et0/0       100,200
+
+Port        Vlans allowed and active in management domain
+Et0/0       100,200
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Et0/0       100,200
+
+```
+
+
+
