@@ -1,0 +1,137 @@
+R2#show running-config 
+Building configuration...
+
+Current configuration : 1102 bytes
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$twaF$KDzCsutowj6xVccnFy.hd.
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+        
+!         
+no ip domain lookup
+ip cef    
+no ipv6 cef
+!         
+multilink bundle-name authenticated
+        
+!         
+redundancy
+        
+!         
+interface Ethernet0/0
+ ip address 10.0.0.2 255.255.255.252
+!         
+interface Ethernet0/1
+ ip address 192.168.1.97 255.255.255.240
+ ip helper-address 10.0.0.1
+!         
+interface Ethernet0/2
+ no ip address
+ shutdown 
+!         
+interface Ethernet0/3
+ no ip address
+ shutdown 
+!         
+ip forward-protocol nd
+!         
+!         
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.0.0.1
+         
+!         
+control-plane
+         
+!         
+banner motd ^C
+Attention!
+Unauthorized access is prohibited! OTUS Equipment
+^C        
+!         
+line con 0
+ password 7 0822455D0A16
+ logging synchronous
+ login    
+line aux 0
+line vty 0 4
+ password 7 05080F1C2243
+ login    
+ transport input none
+!         
+!         
+end  
+
+___________________________________________________________
+
+R2#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.0.0.1 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.0.0.1
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Ethernet0/0
+L        10.0.0.2/32 is directly connected, Ethernet0/0
+      192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.1.96/28 is directly connected, Ethernet0/1
+L        192.168.1.97/32 is directly connected, Ethernet0/1
+
+___________________________________________________________
+
+R2#ping 10.0.0.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.0.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R2#ping 192.168.1.66
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.66, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/2 ms
+R2#ping 192.168.1.6 
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.6, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/2 ms
+R2#ping 192.168.1.98
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.98, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R2#ping 192.168.1.103
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.103, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R2#
+
+__________________________________________________________________________
+
+
+
+
+
