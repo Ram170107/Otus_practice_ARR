@@ -154,9 +154,6 @@ VLAN Name                             Status    Ports
 1003 token-ring-default               act/unsup 
 1004 fddinet-default                  act/unsup 
 1005 trnet-default                    act/unsup 
-S1#
-
-______________________________________________________________________________________
 
 S1#show interfaces trunk 
 
@@ -174,7 +171,9 @@ Et0/0       100,200
 S1#
 
 ```
+
 #### Шаг 8. Назначьте VLAN правильным интерфейсам коммутатора
+
 ```
 
 S1#show vlan brief 
@@ -189,9 +188,6 @@ VLAN Name                             Status    Ports
 1003 token-ring-default               act/unsup 
 1004 fddinet-default                  act/unsup 
 1005 trnet-default                    act/unsup 
-S1#
-
-______________________________________________________________________________________
 
 S1#show interfaces trunk 
 
@@ -221,11 +217,11 @@ VLAN Name                             Status    Ports
 1004 fddinet-default                  act/unsup 
 1005 trnet-default                    act/unsup 
 S2#
-__________________________________________________________________________________
 
 ```
+
 - Почему интерфейс Eth0/0 указан в разделе VLAN 1?
-- 
+
 ```
 Все порты по умолчанию находятся в нативном 1 VLAN
 
