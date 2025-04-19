@@ -251,10 +251,261 @@ Et0/0       100,200
 - На этом этапе какой IP-адрес был бы у ПК, если бы они были подключены к сети с использованием DHCP?
 
 ```
-IP адрес ПК не присвоился бы, т.к. на маршрутизаторах не подня DHCP  сервер
+IP адрес ПК не присвоился бы, т.к. на маршрутизаторах не поднят DHCP  сервер
 
 ```
 
+# Часть 2. Настройте и верифицируйте два сервера DHCP на R1
+#### Шаг 1. Настройте R1 с использованием пулов DHCPv4 для двух поддерживаемых подсетей.
+
+```
+R1#
+ip dhcp excluded-address 192.168.1.1 192.168.1.5
+ip dhcp excluded-address 192.168.1.97 192.168.1.102
+!         
+ip dhcp pool R2_Client_LAN
+ network 192.168.1.96 255.255.255.240
+ domain-name ccna-lab.com
+ default-router 192.168.1.97 
+ lease 2 12 30
+!         
+ip dhcp pool R1_DHCP_Subnet_A
+ network 192.168.1.0 255.255.255.192
+ default-router 192.168.1.1 
+ domain-name ccna-lab.com
+ lease 2 12 30
+
+```
+
+#### Шаг 2. Сохраните вашу конфигурацию
+#### Шаг 3. Проверьте конфигурацию сервера DHCPv4
+
+```
+
+R1#show ip dhcp pool
+
+Pool R2_Client_LAN :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 14
+ Leased addresses               : 1
+ Pending event                  : none
+ 1 subnet is currently in the pool :
+ Current index        IP address range                    Leased addresses
+ 192.168.1.104        192.168.1.97     - 192.168.1.110     1
+
+Pool R1_DHCP_Subnet_A :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 62
+ Leased addresses               : 1
+ Pending event                  : none
+ 1 subnet is currently in the pool :
+ Current index        IP address range                    Leased addresses
+ 192.168.1.7          192.168.1.1      - 192.168.1.62      1
+R1#
+
+R1#show ip dhcp binding 
+Bindings from all pools not associated with VRF:
+IP address          Client-ID/	 	    Lease expiration        Type
+		    Hardware address/
+		    User name
+192.168.1.6         0100.5079.6668.05       Apr 22 2025 05:44 AM    Automatic
+192.168.1.103       0100.5079.6668.06       Apr 22 2025 05:45 AM    Automatic
+R1#
+R1#show ip dhcp server statistics 
+Memory usage         42096
+Address pools        2
+Database agents      0
+Automatic bindings   2
+Manual bindings      0
+Expired bindings     0
+Malformed messages   0
+Secure arp entries   0
+
+Message              Received
+BOOTREQUEST          0
+DHCPDISCOVER         5
+DHCPREQUEST          3
+DHCPDECLINE          0
+DHCPRELEASE          0
+DHCPINFORM           0
+
+Message              Sent
+BOOTREPLY            0
+DHCPOFFER            3
+DHCPACK              3
+DHCPNAK              0
+R1#
 
 
 
+
+```
+
+#### Шаг 4. Попытка получить IP адрес DHCP на PC-A
+
+```
+PC-A> ip dhcp
+DORA IP 192.168.1.6/26 GW 192.168.1.1
+
+PC-A> show ip
+
+NAME        : PC-A[1]
+IP/MASK     : 192.168.1.6/26
+GATEWAY     : 192.168.1.1
+DNS         : 
+DHCP SERVER : 192.168.1.1
+DHCP LEASE  : 217793, 217800/108900/190575
+DOMAIN NAME : ccna-lab.com
+MAC         : 00:50:79:66:68:05
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+
+PC-A> 
+
+```
+
+# Часть 3. Настройте и проверьте DHCP-ретранслятор на R2
+#### Шаг 1. Настройте R2 в качестве агента ретрансляции DHCP для локальной сети на Eth0/1
+
+```
+R2#
+interface Ethernet0/1
+ ip address 192.168.1.97 255.255.255.240
+ ip helper-address 10.0.0.1
+
+```
+
+#### Шаг 2. Попытка получить IP адрес из DHCP на PC-B
+
+```
+PC-B> ip dhcp
+DORA IP 192.168.1.103/28 GW 192.168.1.97
+
+PC-B> show ip
+
+NAME        : PC-B[1]
+IP/MASK     : 192.168.1.103/28
+GATEWAY     : 192.168.1.97
+DNS         : 
+DHCP SERVER : 10.0.0.1
+DHCP LEASE  : 217795, 217800/108900/190575
+DOMAIN NAME : ccna-lab.com
+MAC         : 00:50:79:66:68:06
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+
+PC-B> 
+
+```
+
+- Проверьте подключение, отправив запрос на ip-адрес интерфеса R1 Eth0/1
+
+Для начало настроим ip-адрес на R1 Eth0/1
+
+```
+!         
+interface Ethernet0/0
+ ip address 10.0.0.1 255.255.255.252
+!         
+interface Ethernet0/1
+ ip address 10.0.0.5 255.255.255.252
+
+```
+
+Теперь можем пропинговать оба интерфейса маршрутизатора:
+
+```
+PC-B> ping 10.0.0.1
+
+84 bytes from 10.0.0.1 icmp_seq=1 ttl=254 time=0.535 ms
+84 bytes from 10.0.0.1 icmp_seq=2 ttl=254 time=0.769 ms
+84 bytes from 10.0.0.1 icmp_seq=3 ttl=254 time=0.712 ms
+84 bytes from 10.0.0.1 icmp_seq=4 ttl=254 time=0.700 ms
+84 bytes from 10.0.0.1 icmp_seq=5 ttl=254 time=0.720 ms
+
+PC-B> ping 10.0.0.5
+
+84 bytes from 10.0.0.5 icmp_seq=1 ttl=254 time=0.728 ms
+84 bytes from 10.0.0.5 icmp_seq=2 ttl=254 time=0.683 ms
+84 bytes from 10.0.0.5 icmp_seq=3 ttl=254 time=0.778 ms
+84 bytes from 10.0.0.5 icmp_seq=4 ttl=254 time=0.676 ms
+84 bytes from 10.0.0.5 icmp_seq=5 ttl=254 time=0.697 ms
+
+PC-B> 
+
+```
+
+- Проверка привязок на R1
+
+```
+R1#show ip dhcp binding 
+Bindings from all pools not associated with VRF:
+IP address          Client-ID/	 	    Lease expiration        Type
+		    Hardware address/
+		    User name
+192.168.1.6         0100.5079.6668.05       Apr 22 2025 07:49 AM    Automatic
+192.168.1.103       0100.5079.6668.06       Apr 22 2025 07:54 AM    Automatic
+R1#
+
+```
+
+- Выведение статистики dhcp на R1 и R2 для проверки сообщений dhcp
+
+```
+R1#show ip dhcp server statistics 
+Memory usage         42096
+Address pools        2
+Database agents      0
+Automatic bindings   2
+Manual bindings      0
+Expired bindings     0
+Malformed messages   0
+Secure arp entries   0
+
+Message              Received
+BOOTREQUEST          0
+DHCPDISCOVER         8
+DHCPREQUEST          6
+DHCPDECLINE          0
+DHCPRELEASE          0
+DHCPINFORM           0
+
+Message              Sent
+BOOTREPLY            0
+DHCPOFFER            6
+DHCPACK              6
+DHCPNAK              0
+R1#
+
+```
+```
+R2#show ip dhcp server statistics 
+Memory usage         22565
+Address pools        0
+Database agents      0
+Automatic bindings   0
+Manual bindings      0
+Expired bindings     0
+Malformed messages   0
+Secure arp entries   0
+
+Message              Received
+BOOTREQUEST          0
+DHCPDISCOVER         0
+DHCPREQUEST          0
+DHCPDECLINE          0
+DHCPRELEASE          0
+DHCPINFORM           0
+
+Message              Sent
+BOOTREPLY            0
+DHCPOFFER            0
+DHCPACK              0
+DHCPNAK              0
+R2#
+
+```
