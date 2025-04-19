@@ -32,9 +32,65 @@ ______
 
 #### Шаг 3. Настройте основные параметры каждого маршрутизатора
 
-- Параметры настройены. Смотреть файл: https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R1_conf
-- https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R2_conf
-- 
+- Параметры настройены. Смотреть файл конфига маршрутизаторов:
+  https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R1_conf
+  https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R2_conf
+  
 #### Шаг 4. Настройте маршрутизацию между VLAN на R1
-- Параметры настройены. Смотреть файл: https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R1_conf
-- https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R2_conf
+- Параметры настройены.
+
+  R1#
+interface Ethernet0/1.100
+ description Clients
+ encapsulation dot1Q 100
+ ip address 192.168.1.1 255.255.255.192
+!         
+interface Ethernet0/1.200
+ description Management
+ encapsulation dot1Q 200
+ ip address 192.168.1.65 255.255.255.224
+
+
+ Смотреть файлы конфига маршрутизаторов:
+  https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R1_conf
+  https://github.com/Ram170107/Otus_practice_ARR/blob/88045954bd2759fe573e6e709b5026c58fe2226f/labs/lab_3/R2_conf
+  
+#### Шаг 5.  Настройте Eth0/0 на R2, затем Eth0/1 и статическую маршрутизацию для обоих маршрутизаторов:
+
+R1#
+interface Ethernet0/0
+ ip address 10.0.0.1 255.255.255.252
+!         
+interface Ethernet0/1
+ no ip address
+
+
+R2#
+interface Ethernet0/0
+ ip address 10.0.0.2 255.255.255.252
+!         
+interface Ethernet0/1
+ ip address 192.168.1.97 255.255.255.240
+ ip helper-address 10.0.0.1
+R2#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.0.0.1 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.0.0.1
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, Ethernet0/0
+L        10.0.0.2/32 is directly connected, Ethernet0/0
+      192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.1.96/28 is directly connected, Ethernet0/1
+L        192.168.1.97/32 is directly connected, Ethernet0/1
+
+
