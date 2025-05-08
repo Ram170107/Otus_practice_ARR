@@ -1,6 +1,7 @@
-###Tables
+### Tables
                     
-Equipment  | IP | VLAN
+Equipment  | Port | IP | VLAN
 ------------- | ------------- | -------------
-Content Cell  | Content Cell  | Content Cell
-Content Cell  | Content Ce    | Content Cell 
+R12  | Eth0/0 | Content Cell  | Content Cell
+
+R13  | | Content Ce    | Content Cell 
