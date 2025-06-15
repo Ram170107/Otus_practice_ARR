@@ -17,8 +17,8 @@
 >Таблица адресов маршрутизаторов
 
 ### Настроите ip адреса на каждом активном порту
-#### IP адреса настроены.
-###### Примеры настройки портов:
+#### IP адреса настроены на всех активных портах.
+###### Пример настройки портов:
 
 ```interface Loopback0
  ip address 10.1.0.14 255.255.255.255
@@ -42,6 +42,20 @@ interface Ethernet0/3
 ```
 > На маршрутизаторе R14
 
+```R12#sh ip int br
+Interface                  IP-Address      OK? Method Status                Protocol
+Ethernet0/0                10.10.120.1     YES NVRAM  up                    up      
+Ethernet0/1                10.10.121.1     YES NVRAM  up                    up      
+Ethernet0/2                10.0.140.2      YES NVRAM  up                    up      
+Ethernet0/3                10.0.151.2      YES NVRAM  up                    up      
+Ethernet1/0                unassigned      YES NVRAM  administratively down down    
+Ethernet1/1                unassigned      YES NVRAM  administratively down down    
+Ethernet1/2                unassigned      YES NVRAM  administratively down down    
+Ethernet1/3                unassigned      YES NVRAM  administratively down down    
+Loopback0                  10.2.0.12       YES NVRAM  up                    up
+
+```
+> Не активные порты переведены в режим administratively down
 
 ### Настроите каждый VPC в каждом офисе в своем VLAN.
 ### Настроите VLAN/Loopbackup interface управления для сетевых устройств
