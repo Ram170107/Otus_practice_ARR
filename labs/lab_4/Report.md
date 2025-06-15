@@ -58,9 +58,9 @@ Loopback0                  10.2.0.12       YES NVRAM  up                    up
 > Неактивные порты переведены в режим administratively down
 
 ### Настроите каждый VPC в каждом офисе в своем VLAN.
-##### В Москве настроил для каждой сети свой VLAN интерфейс.
+#### В Москве настроил для каждой сети свой VLAN интерфейс.
 ![](https://github.com/Ram170107/Otus_practice_ARR/blob/e6a697049b3748f767796f95fea380e25971a5cf/labs/lab_4/%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%20%D1%81%D0%B5%D1%82%D0%B8.png)
-##### Cтерменировав все на SW4-SW5 - они настроены при помощи HSRP.
+#### Cтерменировав все на SW4-SW5 - они настроены при помощи HSRP. Также на портах eth0/2-3 между свичами настроена агрегация LACP.
 ```interface Loopback0
  ip address 10.3.0.4 255.255.255.255
 !         
@@ -172,7 +172,32 @@ VPC1>
 ```
 > Тест ping до шлюза от VPC1
 
-##### В С. Петербурге стерменировано на SW9 на VLAN интерфейсах:
+```VPC7> sh ip
+
+NAME        : VPC7[1]
+IP/MASK     : 192.168.20.107/24
+GATEWAY     : 192.168.20.1
+DNS         : 
+MAC         : 00:50:79:66:68:07
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+
+VPC7> ping 192.168.20.1
+
+84 bytes from 192.168.20.1 icmp_seq=1 ttl=255 time=0.369 ms
+84 bytes from 192.168.20.1 icmp_seq=2 ttl=255 time=0.573 ms
+84 bytes from 192.168.20.1 icmp_seq=3 ttl=255 time=0.469 ms
+84 bytes from 192.168.20.1 icmp_seq=4 ttl=255 time=0.493 ms
+84 bytes from 192.168.20.1 icmp_seq=5 ttl=255 time=0.479 ms
+
+VPC7> 
+
+```
+
+> Тест ping до шлюза от VPC7
+
+#### В С. Петербурге стерменировано на SW9 на VLAN интерфейсах:
 
 ```SW9#sh run | s int
 vlan internal allocation policy ascending
@@ -234,10 +259,59 @@ interface Vlan45
 ```
 ![](https://github.com/Ram170107/Otus_practice_ARR/blob/e6a697049b3748f767796f95fea380e25971a5cf/labs/lab_4/%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%20%D1%81%D0%B5%D1%82%D0%B8.png)
 
+#### В Чокурдах стерменировано на R28 на sub интерфейсах
 
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/845210563d52276de0ffd5ef4274f656822a8d17/labs/lab_4/%D0%A7%D0%BE%D0%BA%D1%83%D1%80%D0%B4%D0%B0%D1%85%20%D1%81%D0%B5%D1%82%D0%B8.png)
+
+```interface Loopback0
+ ip address 10.52.0.28 255.255.255.255
+!         
+interface Ethernet0/0
+ description TO_Triada_R26_eth0/1
+ ip address 10.0.61.2 255.255.255.252
+!         
+interface Ethernet0/1
+ description TO_Triada_R25_eth0/3
+ ip address 10.0.253.2 255.255.255.252
+!         
+interface Ethernet0/2
+ description TO_SW29_eth0/2
+ no ip address
+!         
+interface Ethernet0/2.40
+ encapsulation dot1Q 40
+ ip address 192.168.40.1 255.255.255.0
+!         
+interface Ethernet0/2.45
+ encapsulation dot1Q 45
+ ip address 172.20.45.33 255.255.255.240
+!         
+interface Ethernet0/2.50
+ encapsulation dot1Q 50
+ ip address 192.168.50.1 255.255.255.0
+
+```
 
 
 ### Настроите VLAN/Loopbackup interface управления для сетевых устройств
+##### Как видно из схемы на всех устройствах настроен Loopback. Также на свичах настроен VLAN на управление с id 45.
+
+```SW3#sh vlan
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+10   OTDEL_KADROV                     active    Et0/2
+20   BUHGALTERIA                      active    
+45   MGMT                             active    
+666  FAKE_VLAN                        active    Et0/3, Et1/0, Et1/1, Et1/2
+                                                Et1/3
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+
+```
 ### Настроите сети офисов так, чтобы не возникало broadcast штормов, а использование линков было максимально оптимизировано. Используете IPv4. IPv6 по желанию
 
 > https://github.com/Ram170107/Otus_practice_ARR/blob/184578dc49c6b9a67bdb2e6190929a99021acf9c/labs/lab_4/Lab_4.zip
