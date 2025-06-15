@@ -17,8 +17,34 @@
 >Таблица адресов маршрутизаторов
 
 ### Настроите ip адреса на каждом активном порту
+#### IP адреса настроены.
+###### Примеры настройки портов:
+
+```interface Loopback0
+ ip address 10.1.0.14 255.255.255.255
+!         
+interface Ethernet0/0
+ description TO_R12_eth0/2
+ ip address 10.0.140.1 255.255.255.252
+!         
+interface Ethernet0/1
+ description TO_R13_eth0/3
+ ip address 10.0.141.1 255.255.255.252
+!         
+interface Ethernet0/2
+ description TO_Kitorn_R22_eth0/0
+ ip address 10.0.220.2 255.255.255.252
+!         
+interface Ethernet0/3
+ description TO_R19_eth0/0
+ ip address 10.0.143.1 255.255.255.252
+
+```
+> На маршрутизаторе R14
 
 
 ### Настроите каждый VPC в каждом офисе в своем VLAN.
 ### Настроите VLAN/Loopbackup interface управления для сетевых устройств
 ### Настроите сети офисов так, чтобы не возникало broadcast штормов, а использование линков было максимально оптимизировано. Используете IPv4. IPv6 по желанию
+
+> https://github.com/Ram170107/Otus_practice_ARR/blob/184578dc49c6b9a67bdb2e6190929a99021acf9c/labs/lab_4/Lab_4.zip
