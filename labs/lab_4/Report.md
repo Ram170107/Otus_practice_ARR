@@ -313,5 +313,107 @@ VLAN Name                             Status    Ports
 
 ```
 ### Настроите сети офисов так, чтобы не возникало broadcast штормов, а использование линков было максимально оптимизировано. Используете IPv4. IPv6 по желанию
+#### На всех свичах включен RSTP
+```SW4#sh spanning-tree 
 
-> https://github.com/Ram170107/Otus_practice_ARR/blob/184578dc49c6b9a67bdb2e6190929a99021acf9c/labs/lab_4/Lab_4.zip
+VLAN0010
+ Spanning tree enabled protocol rstp
+  Root ID    Priority    24586
+             Address     aabb.cc00.4000
+             This bridge is the root
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    24586  (priority 24576 sys-id-ext 10)
+             Address     aabb.cc00.4000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Desg FWD 100       128.1    Shr 
+Po1                 Desg FWD 56        128.65   Shr 
+
+```
+
+```SW2#sh spanning-tree 
+
+VLAN0020
+  Spanning tree enabled protocol rstp
+  Root ID    Priority    24596
+             Address     aabb.cc00.4000
+             Cost        100
+             Port        2 (Ethernet0/1)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32788  (priority 32768 sys-id-ext 20)
+             Address     aabb.cc00.2000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Altn BLK 100       128.1    Shr 
+Et0/1               Root FWD 100       128.2    Shr 
+Et0/2               Desg FWD 100       128.3    Shr
+```
+
+#### Также на портах направленных в сторону хостов настроены средства защиты:
+- установлен лимит разрешённых адресов, максимальное количество — 2
+- включена функция BPDU Guard, которая переводит порт в состояние error-disabled при получении BPDU. Это нужно для защиты протокола STP
+
+```SW2#show running-config | s int
+...
+interface Ethernet0/2
+ description VPC7
+ switchport access vlan 20
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security
+ no cdp enable
+ spanning-tree bpduguard enable
+ ip dhcp snooping limit rate 10
+
+```
+#### Для неиспользуемых портов используется FAKE_VLAN порты переведены в режим administratively down
+```interface Ethernet0/3
+ switchport access vlan 345
+ switchport mode access
+ shutdown 
+interface Ethernet1/0
+ switchport access vlan 345
+ switchport mode access
+ shutdown 
+interface Ethernet1/1
+ switchport access vlan 345
+ switchport mode access
+```
+```
+SW2#sh vlan
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+20   VLAN0020                         active    Et0/2
+45   MGMT                             active    
+345  FAKE_VLAN                        active    Et0/3, Et1/0, Et1/1, Et1/2
+                                                Et1/3
+```
+```SW2#sh ip int br
+Interface              IP-Address      OK? Method Status                Protocol
+Ethernet0/0            unassigned      YES unset  up                    up      
+Ethernet0/1            unassigned      YES unset  up                    up      
+Ethernet0/2            unassigned      YES unset  up                    up      
+Ethernet0/3            unassigned      YES unset  administratively down down    
+Ethernet1/0            unassigned      YES unset  administratively down down    
+Ethernet1/1            unassigned      YES unset  administratively down down    
+Ethernet1/2            unassigned      YES unset  administratively down down    
+Ethernet1/3            unassigned      YES unset  administratively down down    
+Loopback0              10.4.0.2        YES NVRAM  up                    up      
+Vlan45                 172.10.45.5     YES NVRAM  up                    up      
+SW2#
+
+```
+
+`<Лабораторная работа в EVENG>` : < https://github.com/Ram170107/Otus_practice_ARR/blob/184578dc49c6b9a67bdb2e6190929a99021acf9c/labs/lab_4/Lab_4.zip>
+
+
