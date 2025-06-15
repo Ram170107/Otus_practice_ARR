@@ -414,6 +414,6 @@ SW2#
 
 ```
 
-`<Лабораторная работа в EVENG>` : < https://github.com/Ram170107/Otus_practice_ARR/blob/219bf7da1519a6c0c5db24e511b6a5257364bb8c/labs/lab_4/_Exports_unetlab_export-20250615-125206.zip>
+## Лабораторная работа в EVEN приложена в файле - Exports_unetlab_export-20250615-125206.zip
 
 
