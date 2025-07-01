@@ -71,15 +71,9 @@ R25#
 ```
 
 ##### Результат команды ping от R27 до R25 и наоборот:
+
 ```
-R25#ping 192.168.1.27                  
-Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 192.168.1.27, timeout is 2 seconds:
-!!!!!
-Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
-R25#
-```
-```R27#ping 10.0.251.1 source 192.168.1.27
+R27#ping 10.0.251.1 source 192.168.1.27
 Type escape sequence to abort.
 Sending 5, 100-byte ICMP Echos to 10.0.251.1, timeout is 2 seconds:
 Packet sent with a source address of 192.168.1.27 
@@ -93,6 +87,15 @@ Packet sent with a source address of 192.168.1.27
 Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
 R27#
 
+```
+
+```
+R25#ping 192.168.1.27                  
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.27, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R25#
 ```
 ##### Таким образом мы видим что из нашего локального ip адреса мы можем пинговать любой адрес на маршрутизаторе R25
 
