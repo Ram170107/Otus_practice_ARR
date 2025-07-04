@@ -40,11 +40,13 @@ interface Ethernet0/3
  no ip address
  shutdown 
 ```
-! (https://github.com/Ram170107/Otus_practice_ARR/blob/ba40f15173f260528d846c620c29528649b90c39/labs/lab_5/%D0%9F%D0%B8%D0%BD%D0%B3%20PC30%20%D0%B4%D0%BE%20%D1%88%D0%BB%D1%8E%D0%B7%D0%B0.png)
 
-! (https://github.com/Ram170107/Otus_practice_ARR/blob/ba40f15173f260528d846c620c29528649b90c39/labs/lab_5/%D0%9F%D0%B8%D0%BD%D0%B3%20PC31%20%D0%B4%D0%BE%20%D1%88%D0%BB%D1%8E%D0%B7%D0%B0.png)
 
-! (https://github.com/Ram170107/Otus_practice_ARR/blob/ba40f15173f260528d846c620c29528649b90c39/labs/lab_5/%D0%A2%D0%B5%D1%81%D1%82%20%D0%BF%D0%B8%D0%BD%D0%B3%20%D0%B4%D0%BE%20%D0%9F%D0%9A%20%D0%BE%D1%84%D0%B8%D1%81%D0%BE%D0%B2.png)
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/ba40f15173f260528d846c620c29528649b90c39/labs/lab_5/%D0%9F%D0%B8%D0%BD%D0%B3%20PC30%20%D0%B4%D0%BE%20%D1%88%D0%BB%D1%8E%D0%B7%D0%B0.png)
+
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/ba40f15173f260528d846c620c29528649b90c39/labs/lab_5/%D0%9F%D0%B8%D0%BD%D0%B3%20PC31%20%D0%B4%D0%BE%20%D1%88%D0%BB%D1%8E%D0%B7%D0%B0.png)
+
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/ba40f15173f260528d846c620c29528649b90c39/labs/lab_5/%D0%A2%D0%B5%D1%81%D1%82%20%D0%BF%D0%B8%D0%BD%D0%B3%20%D0%B4%D0%BE%20%D0%9F%D0%9A%20%D0%BE%D1%84%D0%B8%D1%81%D0%BE%D0%B2.png)
 
 
 ### Распределите трафик между двумя линками с провайдером.
