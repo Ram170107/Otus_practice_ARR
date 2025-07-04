@@ -5,6 +5,42 @@
 В этой самостоятельной работе мы ожидаем, что вы самостоятельно:
 
 ### Настроите политику маршрутизации для сетей офиса.
+Сети офиса стерменированы на R28.  На нём настроены саб интерфейсы и прописаны сети.
+Маршрутизация между сетями работает благодаря Inter-VLAN_routing.
+
+```
+interface Loopback0
+ ip address 10.52.0.28 255.255.255.255
+!         
+interface Ethernet0/0
+ description TO_Triada_R26_eth0/1
+ ip address 10.0.61.2 255.255.255.252
+!         
+interface Ethernet0/1
+ description TO_Triada_R25_eth0/3
+ ip address 10.0.253.2 255.255.255.252
+!         
+interface Ethernet0/2
+ description TO_SW29_eth0/2
+ no ip address
+!         
+interface Ethernet0/2.40
+ encapsulation dot1Q 40
+ ip address 192.168.40.1 255.255.255.0
+!         
+interface Ethernet0/2.45
+ encapsulation dot1Q 45
+ ip address 172.20.45.33 255.255.255.240
+!         
+interface Ethernet0/2.50
+ encapsulation dot1Q 50
+ ip address 192.168.50.1 255.255.255.0
+!         
+interface Ethernet0/3
+ no ip address
+ shutdown 
+```
+
 ### Распределите трафик между двумя линками с провайдером.
 ### Настроите отслеживание линка через технологию IP SLA.(только для IPv4)
 ### Настройте для офиса Лабытнанги маршрут по-умолчанию.
