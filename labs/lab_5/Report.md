@@ -192,7 +192,7 @@ ip sla schedule 2 life forever start-time now
 ![](https://github.com/Ram170107/Otus_practice_ARR/blob/f500a053adfaea872af57cefb7b354f707e88988/labs/lab_5/R28_r25down.png)
 
 Как мы видим ниже теперь пакеты до 10.0.252.2 идут через 10.0.61.1:
-1[](https://github.com/Ram170107/Otus_practice_ARR/blob/f500a053adfaea872af57cefb7b354f707e88988/labs/lab_5/%D0%9C%D0%B0%D1%80%D1%88%D1%80%D1%83%D1%82%20VPC31%20%D0%B4%D0%BE%20R26.png)
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/f500a053adfaea872af57cefb7b354f707e88988/labs/lab_5/%D0%9C%D0%B0%D1%80%D1%88%D1%80%D1%83%D1%82%20VPC31%20%D0%B4%D0%BE%20R26.png)
 Включаем порт на R28 обратно, IP SLA восстанавливает состояния на OK:
 
 ![](https://github.com/Ram170107/Otus_practice_ARR/blob/f500a053adfaea872af57cefb7b354f707e88988/labs/lab_5/IPSLA%20sum.png)
