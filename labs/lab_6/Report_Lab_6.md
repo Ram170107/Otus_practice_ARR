@@ -374,5 +374,167 @@ R13#
 
 ```
 ### Маршрутизатор R19 находится в зоне 101 и получает только маршрут по умолчанию.
+#### Настройки OSPF на R19:
+```
+R19#
+...
+interface Loopback0
+ ip address 10.5.0.19 255.255.255.255
+!         
+interface Ethernet0/0
+ description TO_R14_eth0/3_AREA_0
+ ip address 10.0.143.2 255.255.255.252
+ ip ospf 1 area 101
+!         
+interface Ethernet0/1
+ ip address 172.10.19.1 255.255.255.0
+!         
+interface Ethernet0/2
+ no ip address
+ shutdown 
+!         
+interface Ethernet0/3
+ no ip address
+ shutdown 
+!         
+router ospf 1
+ router-id 1.1.1.119
+ area 101 stub
+ network 10.0.143.0 0.0.0.3 area 101
+ network 10.5.0.19 0.0.0.0 area 101
+ network 172.10.19.0 0.0.0.255 area 101
+R19#
+
+```
+- Соседи OSPF у R19:
+```
+R19#show ip ospf neighbor 
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.14          1   FULL/BDR        00:00:35    10.0.143.1      Ethernet0/0
+R19#
+
+```
+### Маршруты OSPF на R19:
+```
+R19#sh ip route ospf
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.0.143.1 to network 0.0.0.0
+
+O*IA  0.0.0.0/0 [110/11] via 10.0.143.1, 00:51:23, Ethernet0/0
+R19#
+
+```
+Видим что прилетает только маршрут по умолчанию
 
 ### Маршрутизатор R20 находится в зоне 102 и получает все маршруты, кроме маршрутов до сетей зоны 101.
+- Настройки OSPF на R20:
+
+```
+R20#
+...
+interface Loopback0
+ ip address 10.5.0.20 255.255.255.255
+!         
+interface Ethernet0/0
+ description TO_R15_eth0/0_Area_0
+ ip address 10.0.153.2 255.255.255.252
+!                 
+router ospf 2015
+ router-id 2.2.2.20
+ network 10.0.153.0 0.0.0.0 area 102
+ network 10.0.153.0 0.0.0.3 area 102
+ network 10.5.0.20 0.0.0.0 area 102
+ distribute-list prefix R19DENY in
+!         
+ip forward-protocol nd
+!         
+!         
+no ip http server
+no ip http secure-server
+!         
+!         
+ip prefix-list R19DENY seq 5 deny 10.0.143.0/30 le 32
+ip prefix-list R19DENY seq 6 deny 172.10.19.0/24 le 32
+ip prefix-list R19DENY seq 7 deny 10.5.0.19/32
+ip prefix-list R19DENY seq 15 permit 0.0.0.0/0 le 32
+R20#
+
+```
+Фильтрация настроена при помощи префикс листа
+
+#### Выгрузка маршрутов OSPF с R20:
+```
+R20#show ip route ospf
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.0.153.1 to network 0.0.0.0
+
+O*E2  0.0.0.0/0 [110/10] via 10.0.153.1, 00:56:00, Ethernet0/0
+      10.0.0.0/8 is variably subnetted, 19 subnets, 2 masks
+O IA     10.0.140.0/30 [110/30] via 10.0.153.1, 00:56:05, Ethernet0/0
+O IA     10.0.141.0/30 [110/30] via 10.0.153.1, 00:56:14, Ethernet0/0
+O IA     10.0.150.0/30 [110/20] via 10.0.153.1, 00:56:14, Ethernet0/0
+O IA     10.0.151.0/30 [110/20] via 10.0.153.1, 00:56:14, Ethernet0/0
+O IA     10.0.210.0/30 [110/20] via 10.0.153.1, 00:56:14, Ethernet0/0
+O IA     10.0.220.0/30 [110/40] via 10.0.153.1, 00:56:05, Ethernet0/0
+O IA     10.1.0.14/32 [110/31] via 10.0.153.1, 00:56:05, Ethernet0/0
+O IA     10.1.0.15/32 [110/11] via 10.0.153.1, 00:56:14, Ethernet0/0
+O IA     10.2.0.12/32 [110/21] via 10.0.153.1, 00:56:05, Ethernet0/0
+O IA     10.2.0.13/32 [110/21] via 10.0.153.1, 00:56:14, Ethernet0/0
+O IA     10.3.0.4/32 [110/31] via 10.0.153.1, 00:56:05, Ethernet0/0
+O IA     10.3.0.5/32 [110/31] via 10.0.153.1, 00:56:14, Ethernet0/0
+O IA     10.10.120.0/30 [110/30] via 10.0.153.1, 00:56:05, Ethernet0/0
+O IA     10.10.121.0/30 [110/30] via 10.0.153.1, 00:56:05, Ethernet0/0
+O IA     10.10.130.0/30 [110/30] via 10.0.153.1, 00:56:14, Ethernet0/0
+O IA     10.10.131.0/30 [110/30] via 10.0.153.1, 00:56:14, Ethernet0/0
+R20#
+
+```
+- Как видно среди маршрутов нет сетей от R19 т.к. они фильтруются и отбрасываются благодаря префикс листу
+#### Соседи у R20:
+```
+R20#show ip ospf neighbor 
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.15          1   FULL/BDR        00:00:37    10.0.153.1      Ethernet0/0
+R20#
+
+```
+#### Проверим связность в сети Москвы VPC1 до Киторна R22 int eth0/0:
+
+```
+VPC1> ping 10.0.220.2
+
+84 bytes from 10.0.220.2 icmp_seq=1 ttl=253 time=0.931 ms
+84 bytes from 10.0.220.2 icmp_seq=2 ttl=253 time=1.080 ms
+84 bytes from 10.0.220.2 icmp_seq=3 ttl=253 time=3.884 ms
+84 bytes from 10.0.220.2 icmp_seq=4 ttl=253 time=0.964 ms
+84 bytes from 10.0.220.2 icmp_seq=5 ttl=253 time=0.949 ms
+
+VPC1> trace 10.0.220.2
+trace to 10.0.220.2, 8 hops max, press Ctrl+C to stop
+ 1   192.168.10.2   0.417 ms  0.317 ms  0.290 ms
+ 2   10.10.120.1   0.618 ms  0.429 ms  0.407 ms
+ 3   *10.0.140.1   0.795 ms (ICMP type:3, code:3, Destination port unreachable)  *
+
+VPC1> 
+
+```
