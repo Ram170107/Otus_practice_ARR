@@ -117,7 +117,7 @@ R23#
 ``` 
 R25#sh ip route isis
 Gateway of last resort is not set
-
+....
       10.0.0.0/8 is variably subnetted, 11 subnets, 2 masks
 i L2     10.0.232.0/30 [115/20] via 10.0.231.1, 00:24:10, Ethernet0/0
 i L2     10.0.241.0/30 [115/20] via 10.0.252.2, 00:24:10, Ethernet0/2
@@ -129,7 +129,7 @@ R25#
 ```
 R24#sh ip route isis
 Gateway of last resort is not set
-
+....
       10.0.0.0/8 is variably subnetted, 11 subnets, 2 masks
 i L2     10.0.231.0/30 [115/20] via 10.0.232.1, 00:24:46, Ethernet0/2
 i L2     10.0.252.0/30 [115/20] via 10.0.241.2, 00:24:46, Ethernet0/1
@@ -142,7 +142,7 @@ R24#
 ```
 R26#sh ip route isis
 Gateway of last resort is not set
-
+....
       10.0.0.0/8 is variably subnetted, 11 subnets, 2 masks
 i L2     10.0.231.0/30 [115/20] via 10.0.252.1, 00:23:04, Ethernet0/2
 i L2     10.0.232.0/30 [115/20] via 10.0.241.1, 00:23:04, Ethernet0/0
