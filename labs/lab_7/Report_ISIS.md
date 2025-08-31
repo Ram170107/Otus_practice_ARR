@@ -1,3 +1,8 @@
 ## Настроить IS-IS офисе Триада
-![].(https://github.com/Ram170107/Otus_practice_ARR/blob/ac46155ea26409ecd94684ed0a846d6fb9ae19c4/labs/lab_7/isis.png)
-- Область сети для настройки протокола ISIS
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/ac46155ea26409ecd94684ed0a846d6fb9ae19c4/labs/lab_7/isis.png)
+Область сети для настройки протокола ISIS
+
+#### - Настроите IS-IS в ISP Триада.
+#### - R23 и R25 находятся в зоне 2222.
+#### - R24 находится в зоне 24.
+#### - R26 находится в зоне 26.
