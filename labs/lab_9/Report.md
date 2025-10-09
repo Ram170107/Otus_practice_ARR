@@ -24,6 +24,9 @@ router bgp 1001
  neighbor 10.0.210.1 remote-as 301
 R15#
 ```
+
+##### 2. Настроите eBGP между провайдерами Киторн и Ламас.
+
 - Настройка BGP на R22 Киторн
 
 ```
@@ -39,7 +42,7 @@ router bgp 101
  default-information originate
 R22#
 ```
-- Настройка BGP на R23 Киторн
+- Настройка BGP на R21 Ламас
 
 ```
 R21#sh run | s bgp
@@ -53,8 +56,29 @@ router bgp 301
  neighbor 10.0.221.1 remote-as 101
 R21#
 ```
+- Проверим связность между R15 и R22
+  
+```
+R15#ping 10.0.222.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.222.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R15#
 
-##### 2. Настроите eBGP между провайдерами Киторн и Ламас.
+```
+- Проверим связность между R14 и R21
+
+```
+R14#ping 10.0.212.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.212.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R14#
+
+```
 ##### 3. Настроите eBGP между Ламас и Триада.
+
 ##### 4. Настроите eBGP между офисом С.-Петербург и провайдером Триада.
 ##### 5. Организуете IP доступность между пограничным роутерами офисами Москва и С.-Петербург.
