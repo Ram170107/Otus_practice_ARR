@@ -27,7 +27,7 @@ R15#
 
 ```
 R14#sh bgp nei
-BGP neighbor is 10.0.220.1,  remote AS 101, **external link**
+BGP neighbor is 10.0.220.1,  remote AS 101, external link
   BGP version 4, remote router ID 10.1.1.1
   BGP state = Established, up for 01:36:09
   Last read 00:00:14, last write 00:00:21, hold time is 180, keepalive interval is 60 seconds
@@ -96,6 +96,18 @@ Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
 R14#
 
 ```
+
+```
+BGP neighbor is 10.0.221.2,  remote AS 301, external link
+  BGP version 4, remote router ID 10.1.1.2
+  BGP state = Established, up for 01:37:28
+  Last read 00:00:46, last write 00:00:46, hold time is 180, keepalive interval is 60 seconds
+  Neighbor sessions:
+          
+R22#
+```
+- как мы видим external link т.к. разные AS т.е. у нас eBGP
+
 ##### 3. Настроите eBGP между Ламас и Триада.
 - Настройка BGP на R21 Ламас
 
