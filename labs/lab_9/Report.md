@@ -79,6 +79,55 @@ R14#
 
 ```
 ##### 3. Настроите eBGP между Ламас и Триада.
+- Настройка BGP на R21 Ламас
 
+```
+R21#sh run | s bgp
+router bgp 301
+ bgp log-neighbor-changes
+ network 10.0.210.0 mask 255.255.255.252
+ network 10.0.212.0 mask 255.255.255.252
+ network 10.0.221.0 mask 255.255.255.252
+ neighbor 10.0.210.2 remote-as 1001
+ neighbor 10.0.212.2 remote-as 520
+ neighbor 10.0.221.1 remote-as 101
+R21#
+```
+- Настройка BGP на R24 Триада
+```
+R24#sh run | s router
+ ip router isis 24
+ ip router isis 24
+router isis 24
+ net 49.0024.0010.0052.0024.00
+ is-type level-2-only
+ redistribute bgp 520
+router bgp 520
+ bgp log-neighbor-changes
+ network 10.0.212.0 mask 255.255.255.252
+ network 10.0.232.0 mask 255.255.255.252
+ network 10.0.241.0 mask 255.255.255.252
+ network 10.0.243.0 mask 255.255.255.252
+ redistribute isis 24 level-2 metric 10
+ neighbor 10.0.212.1 remote-as 301
+ neighbor 10.0.243.2 remote-as 2042
+R24#
+
+```
+- В настройках R24 BGP и ISIS в Триаде мы можем видеть строку с настройкой редистрибьюции между протоколами маршрутизации
+
+- Проверим связность:
+
+```
+R21#ping 10.0.243.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.243.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R21#
+
+```
 ##### 4. Настроите eBGP между офисом С.-Петербург и провайдером Триада.
+
+
 ##### 5. Организуете IP доступность между пограничным роутерами офисами Москва и С.-Петербург.
