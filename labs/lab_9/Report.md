@@ -11,6 +11,7 @@ router bgp 1001
  network 10.0.220.0 mask 255.255.255.252
  neighbor 10.0.220.1 remote-as 101
 R14#
+
 ``
 
 ``
@@ -20,6 +21,7 @@ router bgp 1001
  network 10.0.210.0 mask 255.255.255.252
  neighbor 10.0.210.1 remote-as 301
 R15#
+
 ``
 
 ##### 2. Настроите eBGP между провайдерами Киторн и Ламас.
