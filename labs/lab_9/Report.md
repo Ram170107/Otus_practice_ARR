@@ -212,3 +212,21 @@ R18#
 ```
 
 ##### 5. Организуете IP доступность между пограничным роутерами офисами Москва и С.-Петербург.
+
+- Настроены BGP между всеми операторами и офисами. Также для связности между протоколами BGP и ISIS в Триаде настроена редистрибьюция.
+- Проверка связности между приграничнымы роутерами офисов Москвы и С. Петербурга:
+
+```
+R18#ping 10.0.210.2     
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.210.2, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R18#ping 10.0.220.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.220.2, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R18#
+
+```
