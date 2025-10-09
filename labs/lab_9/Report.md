@@ -5,6 +5,7 @@
 - Настройка BGP на R14 и R15
 
 ``
+
 R14#sh run  | s bgp
 router bgp 1001
  bgp log-neighbor-changes
@@ -15,6 +16,7 @@ R14#
 ``
 
 ``
+
 R15#sh run | s bgp
 router bgp 1001
  bgp log-neighbor-changes
