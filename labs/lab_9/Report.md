@@ -230,3 +230,4 @@ Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
 R18#
 
 ```
+#### Связность имеется!
