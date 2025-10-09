@@ -2,7 +2,7 @@
 #### Организовать доступность между офисами Москва и С.-Петербург
 
 ##### 1. Настроите eBGP между офисом Москва и двумя провайдерами - Киторн и Ламас.
-- Настройка BGP на R14 и R15
+- Настройка BGP на R14 и R15 в Москве
 
 ```
 R14#sh run  | s bgp
@@ -20,6 +20,35 @@ router bgp 1001
  network 10.0.210.0 mask 255.255.255.252
  neighbor 10.0.210.1 remote-as 301
 R15#
+```
+- Настройка BGP на R22 Киторн
+
+```
+  R22#sh run | s router
+router bgp 101
+ bgp log-neighbor-changes
+ network 10.0.220.0 mask 255.255.255.252
+ network 10.0.221.0 mask 255.255.255.252
+ network 10.0.222.0 mask 255.255.255.252
+ neighbor 10.0.220.2 remote-as 1001
+ neighbor 10.0.221.2 remote-as 301
+ neighbor 10.0.222.2 remote-as 520
+ default-information originate
+R22#
+```
+- Настройка BGP на R23 Киторн
+
+```
+R21#sh run | s bgp
+router bgp 301
+ bgp log-neighbor-changes
+ network 10.0.210.0 mask 255.255.255.252
+ network 10.0.212.0 mask 255.255.255.252
+ network 10.0.221.0 mask 255.255.255.252
+ neighbor 10.0.210.2 remote-as 1001
+ neighbor 10.0.212.2 remote-as 520
+ neighbor 10.0.221.1 remote-as 101
+R21#
 ```
 
 ##### 2. Настроите eBGP между провайдерами Киторн и Ламас.
