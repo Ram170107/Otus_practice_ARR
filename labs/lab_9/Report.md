@@ -25,6 +25,24 @@ router bgp 1001
 R15#
 ```
 
+```
+R14#sh bgp nei
+BGP neighbor is 10.0.220.1,  remote AS 101, **external link**
+  BGP version 4, remote router ID 10.1.1.1
+  BGP state = Established, up for 01:36:09
+  Last read 00:00:14, last write 00:00:21, hold time is 180, keepalive interval is 60 seconds
+  Neighbor sessions:
+    1 active, is not multisession capable (disabled)
+  Neighbor capabilities:
+    Route refresh: advertised and received(new)
+    Four-octets ASN Capability: advertised and received
+    Address family IPv4 Unicast: advertised and received
+    Enhanced Refresh Capability: advertised and received
+    Multisession Capability: 
+    Stateful switchover support enabled: NO for session 1
+```
+- как мы видим external link т.к. разные AS т.е. у нас eBGP
+
 ##### 2. Настроите eBGP между провайдерами Киторн и Ламас.
 
 - Настройка BGP на R22 Киторн
