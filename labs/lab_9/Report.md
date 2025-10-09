@@ -143,6 +143,12 @@ router bgp 520
  neighbor 10.0.243.2 remote-as 2042
 R24#
 
+R24#sh ip bgp nei
+BGP neighbor is 10.0.212.1,  remote AS 301, external link
+  BGP version 4, remote router ID 10.1.1.2
+  BGP state = Established, up for 01:31:51
+  Last read 00:00:44, last write 00:00:20, hold time is 180, keepalive interval is 60 seconds
+
 ```
 - В настройках R24 BGP и ISIS в Триаде мы можем видеть строку с настройкой редистрибьюции между протоколами маршрутизации
 
