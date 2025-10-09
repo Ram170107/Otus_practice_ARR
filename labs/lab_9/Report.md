@@ -164,6 +164,51 @@ R21#
 
 ```
 ##### 4. Настроите eBGP между офисом С.-Петербург и провайдером Триада.
+- Настройка BGP на R18 С. Петербург:
+```
+R18#sh run | s router
+router bgp 2042
+ bgp log-neighbor-changes
+ network 10.0.63.0 mask 255.255.255.252
+ network 10.0.243.0 mask 255.255.255.252
+ neighbor 10.0.63.1 remote-as 520
+ neighbor 10.0.243.1 remote-as 520
+R18#
 
+```
+
+```
+R18#sh ip bgp neighbors 
+BGP neighbor is 10.0.63.1,  remote AS 520, external link
+  BGP version 4, remote router ID 10.52.0.26
+  BGP state = Established, up for 01:20:40
+  Last read 00:00:05, last write 00:00:28, hold time is 180, keepalive interval is 60 seconds
+
+BGP neighbor is 10.0.243.1,  remote AS 520, external link
+  BGP version 4, remote router ID 10.52.0.24
+  BGP state = Established, up for 01:25:02
+  Last read 00:00:02, last write 00:00:48, hold time is 180, keepalive interval is 60 seconds
+  Neighbor sessions:
+    1 active, is not multisession capable (disabled)
+  Neighbor capabilities:
+          
+R18#
+```
+- Проверим связность:
+
+```
+R18#ping 10.0.232.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.232.2, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R18#             
+R18#ping 10.0.252.2
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.0.252.2, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/1 ms
+R18#
+```
 
 ##### 5. Организуете IP доступность между пограничным роутерами офисами Москва и С.-Петербург.
