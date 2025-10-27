@@ -4,6 +4,8 @@
 - Настроить iBGP в офисе Москва
 - Настроить iBGP в сети провайдера Триада
 - Организовать полную IP связанность всех сетей
+  
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/f76ce35849a8444a3f49b15301e816b8bb7edf97/labs/lab_10_ibgp/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0%20IBGP.png)
 
 ### Настроите iBGP в офисом Москва между маршрутизаторами R14 и R15.
 
@@ -46,7 +48,8 @@ R15#
 
 ```
 ##### Посмотрим iBGP соседей у R14 и R15:
-
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/f76ce35849a8444a3f49b15301e816b8bb7edf97/labs/lab_10_ibgp/BGP%20neib%20R14.png)
+1[](https://github.com/Ram170107/Otus_practice_ARR/blob/f76ce35849a8444a3f49b15301e816b8bb7edf97/labs/lab_10_ibgp/BGP%20neib%20R15.png)
 
 
 
