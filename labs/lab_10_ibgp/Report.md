@@ -54,10 +54,103 @@ R15#
 
 ##### Как мы видим здесь у нас internal link в состоянии Estableshed
 
-### Настроите iBGP в провайдере Триада, с использованием RR.
+### 2.Настроите iBGP в провайдере Триада, с использованием RR.
+Также как и в Москве здесь настроил iBGP на Loopback:
+
+На сети настроим 2 рут рефлектора R23 и R24:
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/1a5f4be7aa7fee82693e88452e1f19a93305278d/labs/lab_10_ibgp/RR.png)
+
+```
+R23#sh run | s router bgp
+router bgp 520
+ bgp log-neighbor-changes
+ network 10.0.222.0 mask 255.255.255.252
+ network 10.0.231.0 mask 255.255.255.252
+ network 10.0.232.0 mask 255.255.255.252
+ redistribute isis 2325 level-2 metric 5
+ neighbor 10.0.222.1 remote-as 101
+ neighbor 10.52.0.24 remote-as 520
+ neighbor 10.52.0.24 update-source Loopback0
+ neighbor 10.52.0.24 route-reflector-client
+ neighbor 10.52.0.25 remote-as 520
+ neighbor 10.52.0.25 update-source Loopback0
+ neighbor 10.52.0.25 route-reflector-client
+ neighbor 10.52.0.26 remote-as 520
+ neighbor 10.52.0.26 update-source Loopback0
+ neighbor 10.52.0.26 route-reflector-client
+R23#
+
+```
+
+```
+R24#sh run | s router bgp
+router bgp 520
+ bgp log-neighbor-changes
+ network 10.0.212.0 mask 255.255.255.252
+ network 10.0.232.0 mask 255.255.255.252
+ network 10.0.241.0 mask 255.255.255.252
+ network 10.0.243.0 mask 255.255.255.252
+ redistribute isis 24 level-2 metric 10
+ neighbor 10.0.212.1 remote-as 301
+ neighbor 10.0.243.2 remote-as 2042
+ neighbor 10.0.243.2 default-originate
+ neighbor 10.0.243.2 prefix-list DEFAULT out
+ neighbor 10.52.0.23 remote-as 520
+ neighbor 10.52.0.23 update-source Loopback0
+ neighbor 10.52.0.23 route-reflector-client
+ neighbor 10.52.0.25 remote-as 520
+ neighbor 10.52.0.25 update-source Loopback0
+ neighbor 10.52.0.25 route-reflector-client
+ neighbor 10.52.0.26 remote-as 520
+ neighbor 10.52.0.26 update-source Loopback0
+ neighbor 10.52.0.26 route-reflector-client
+R24#
+
+```
+Видми что у каждого RR есть по 3 route-reflector-client
 
 
-### Настройте офиса Москва так, чтобы приоритетным провайдером стал Ламас.
+R25 и R26 - route-reflector-client
+
+```
+R25#sh run | s router bgp  
+router bgp 520
+ bgp log-neighbor-changes
+ neighbor 10.52.0.23 remote-as 520
+ neighbor 10.52.0.23 next-hop-self
+ neighbor 10.52.0.24 remote-as 520
+ neighbor 10.52.0.24 next-hop-self
+R25#
+
+```
+
+```
+R26#sh run | s router bgp
+router bgp 520
+ bgp log-neighbor-changes
+ network 10.0.63.0 mask 255.255.255.252
+ redistribute isis 26 level-2 metric 10
+ neighbor 10.0.63.2 remote-as 2042
+ neighbor 10.0.63.2 default-originate
+ neighbor 10.0.63.2 prefix-list DEFAULT out
+ neighbor 10.52.0.23 remote-as 520
+ neighbor 10.52.0.24 remote-as 520
+R26#
+
+```
+
+Проверим соседей на маршрутизаторах Триады:
+
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/1a5f4be7aa7fee82693e88452e1f19a93305278d/labs/lab_10_ibgp/Nei_r23.png)
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/1a5f4be7aa7fee82693e88452e1f19a93305278d/labs/lab_10_ibgp/Nei_r24.png)
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/1a5f4be7aa7fee82693e88452e1f19a93305278d/labs/lab_10_ibgp/Nei_r25.png)
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/1a5f4be7aa7fee82693e88452e1f19a93305278d/labs/lab_10_ibgp/Nei_r26.png)
+
+Ниже мы можем увидеть route-reflector клиентов:
+
+![](https://github.com/Ram170107/Otus_practice_ARR/blob/ff8bc37f29207da27921d6ece2718f221c3c0a10/labs/lab_10_ibgp/RR_client.png)
+
+### 3. Настройте офиса Москва так, чтобы приоритетным провайдером стал Ламас.
 ##### На R14 и R15 для выбора приоритетного маршрута настроил параметр Local preference. 
 На R14 - 1000 (приоритетный маршрут) На R15 - 500
 От оператора к нам приходит только маршрут по умолчанию.
@@ -124,7 +217,7 @@ VPC1>
 
 ```
 
-### Настройте офиса С.-Петербург так, чтобы трафик до любого офиса распределялся по двум линкам одновременно.
+### 4. Настройте офиса С.-Петербург так, чтобы трафик до любого офиса распределялся по двум линкам одновременно.
 В С.-Петербурге на R18 мы добавим команду  maximum-paths 2 - обозначив что у нас максимум 2 маршрута.
 С помощью команды можно настроить балансировку нагрузки, распределив между несколькими линками трафик, направленный в одну сеть. 
 При этом должны выполняться определённые условия:
@@ -165,5 +258,5 @@ RPKI validation codes: V valid, I invalid, N Not found
 
 ```
 
-### Все сети в лабораторной работе должны иметь IP связность.
-### План работы и изменения зафиксированы в документации.
+### 5. Все сети в лабораторной работе должны иметь IP связность.
+
