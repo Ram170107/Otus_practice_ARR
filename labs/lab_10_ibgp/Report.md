@@ -7,7 +7,7 @@
   
 ![](https://github.com/Ram170107/Otus_practice_ARR/blob/f76ce35849a8444a3f49b15301e816b8bb7edf97/labs/lab_10_ibgp/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0%20IBGP.png)
 
-### Настроите iBGP в офисом Москва между маршрутизаторами R14 и R15.
+### 1. Настроите iBGP в офисе Москва между маршрутизаторами R14 и R15.
 
 #### Для повышения доступности IBGP обычно устанавливается между Loopback-интерфейсами
 Настроим iBGP на R14 и R15:
@@ -51,7 +51,7 @@ R15#
 ![](https://github.com/Ram170107/Otus_practice_ARR/blob/f76ce35849a8444a3f49b15301e816b8bb7edf97/labs/lab_10_ibgp/BGP%20neib%20R14.png)
 1[](https://github.com/Ram170107/Otus_practice_ARR/blob/f76ce35849a8444a3f49b15301e816b8bb7edf97/labs/lab_10_ibgp/BGP%20neib%20R15.png)
 
-
+##### Как мы видим здесь у нас internal link в состоянии Estableshed
 
 ### Настроите iBGP в провайдере Триада, с использованием RR.
 ### Настройте офиса Москва так, чтобы приоритетным провайдером стал Ламас.
